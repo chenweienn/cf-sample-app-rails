@@ -1,14 +1,19 @@
 pipeline {
     agent any
     stages {
-        stage('test') {
+        stage('cf login') {
             steps {
-                echo "AHA!"
+                cf login -a api.system.10.193.26.253.sslip.io --skip-ssl-validation -u admin -p VH0839o04wT_nZCV6zGLX60ELSCnvNOa -o wayne-org -s wayne-space
             }
         }
-        stage('test2') {
+        stage('cf push') {
             steps {
-                sh 'cf plugins'
+                sh 'cf zero-downtime-push rails-by-jenkins -f manifest.yml -p .'
+            }
+        }
+        stage('cf apps') {
+            steps {
+                sh 'cf apps'
             }
         }
     }
