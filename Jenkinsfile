@@ -8,7 +8,7 @@ pipeline {
         }
         stage('test2') {
             steps {
-                sh 'ls -l'
+                sh 'cf --version'
             }
         }
     }
