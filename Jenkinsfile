@@ -8,7 +8,7 @@ pipeline {
         }
         stage('test2') {
             steps {
-                sh 'cf --version'
+                sh 'cf plugins'
             }
         }
     }
