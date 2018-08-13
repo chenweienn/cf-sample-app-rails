@@ -1,8 +1,8 @@
 ---
 applications:
-- name: cf-rails
-  memory: 512M
-  instances: 2
+- name: rails-by-jenkins
+  memory: 1024M
+  instances: 1
   random-route: true
 # test
 
