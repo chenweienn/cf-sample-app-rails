@@ -4,7 +4,11 @@ pipeline {
         stage('test') {
             steps {
                 echo "AHA!"
-                ls -l
+            }
+        }
+        stage('test2') {
+            steps {
+                sh 'ls -l'
             }
         }
     }
