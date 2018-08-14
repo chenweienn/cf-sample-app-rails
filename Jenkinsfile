@@ -1,3 +1,4 @@
+#!/usr/bin/env groovy
 pipeline {
     agent none
     environment {
@@ -7,10 +8,10 @@ pipeline {
     stages {
         stage('Build') {
             agent {
-                docker { image 'chenweien/ubuntu-with-cf' }
+                docker { image 'node:8.11.3' }
             }
             steps {
-                sh 'cf plugins'
+                sh 'npm --version'
             }
         }
         stage('cf push') {
@@ -19,8 +20,10 @@ pipeline {
             }
             steps {
                 sh 'cf login -a $API --skip-ssl-validation -u $CRED_USR -p $CRED_PSW -o wayne-org -s wayne-space'
-                sh 'cf zero-downtime-push rails-by-jenkins -f manifest.yml -p .'
-                sh 'cf apps'
+                sh '''
+                    cf zero-downtime-push rails-by-jenkins -f manifest.yml -p .'
+                    cf apps
+                '''
             }
         }
     }
