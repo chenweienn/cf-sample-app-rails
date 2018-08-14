@@ -1,18 +1,25 @@
 pipeline {
-    agent any
+    agent none
+    environment {
+        API = 'api.system.10.193.26.253.sslip.io'
+        CRED = credentials('cf-uaa-admin-cred')
+    }
     stages {
-        stage('cf login') {
+        stage('Build') {
+            agent {
+                docker { image 'chenweien:ubuntu-with-cf' }
+            }
             steps {
-                sh 'cf login -a api.system.10.193.26.253.sslip.io --skip-ssl-validation -u admin -p VH0839o04wT_nZCV6zGLX60ELSCnvNOa -o wayne-org -s wayne-space'
+                sh 'cf plugins'
             }
         }
         stage('cf push') {
-            steps {
-                sh 'cf zero-downtime-push rails-by-jenkins -f manifest.yml -p .'
+            agent {
+                docker { image 'chenweien:ubuntu-with-cf' }
             }
-        }
-        stage('cf apps') {
             steps {
+                sh 'cf login -a $API --skip-ssl-validation -u $CRED_USR -p $CRED_PSW -o wayne-org -s wayne-space'
+                sh 'cf zero-downtime-push rails-by-jenkins -f manifest.yml -p .'
                 sh 'cf apps'
             }
         }
