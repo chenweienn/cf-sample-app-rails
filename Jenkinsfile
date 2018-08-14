@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Build') {
             agent {
-                docker { image 'node' }
+                docker { image 'node:10-slim' }
             }
             steps {
                 sh 'npm --version'
@@ -21,7 +21,7 @@ pipeline {
             steps {
                 sh 'cf login -a $API --skip-ssl-validation -u $CRED_USR -p $CRED_PSW -o wayne-org -s wayne-space'
                 sh '''
-                    cf zero-downtime-push rails-by-jenkins -f manifest.yml -p .'
+                    cf zero-downtime-push rails-by-jenkins -f manifest.yml -p .
                     cf apps
                 '''
             }
