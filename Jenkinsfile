@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Build') {
             agent {
-                docker { image 'node:8.11.3' }
+                docker { image 'node' }
             }
             steps {
                 sh 'npm --version'
