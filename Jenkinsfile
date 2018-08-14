@@ -7,7 +7,7 @@ pipeline {
     stages {
         stage('Build') {
             agent {
-                docker { image 'chenweien:ubuntu-with-cf' }
+                docker { image 'chenweien/ubuntu-with-cf' }
             }
             steps {
                 sh 'cf plugins'
@@ -15,7 +15,7 @@ pipeline {
         }
         stage('cf push') {
             agent {
-                docker { image 'chenweien:ubuntu-with-cf' }
+                docker { image 'chenweien/ubuntu-with-cf' }
             }
             steps {
                 sh 'cf login -a $API --skip-ssl-validation -u $CRED_USR -p $CRED_PSW -o wayne-org -s wayne-space'
